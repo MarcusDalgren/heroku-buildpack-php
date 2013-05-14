@@ -72,6 +72,16 @@ if [ -f $BUILD_DIR/www/composer.json ]; then
   cd $BUILD_DIR
 fi
 
+pushd $BUILD_DIR > /dev/null
+echo "Setting up nodejs"
+if [ -f package.json ]; then
+	echo "Found package.json"
+    $BIN_DIR/compile-nodejs "$BUILD_DIR" "$CACHE_DIR"
+    # Make the node binaries available to the rollout script
+    export PATH=$PATH:$BUILD_DIR/node_modules/.bin/
+fi
+popd > /dev/null
+
 cat >>boot.sh <<EOF
 echo "Checking for WWWROOT environment variable..."
 if [ -n "\${WWWROOT:+x}" ]; then
@@ -94,16 +104,6 @@ tail -F /app/apache/logs/access_log &
 tail -F \$PHP_ERROR_LOG &
 export LD_LIBRARY_PATH=/app/local/lib
 # export PHP_INI_SCAN_DIR=/app/php
-
-pushd $BUILD_DIR > /dev/null
-echo "Setting up nodejs"
-if [ -f package.json ]; then
-	echo "Found package.json"
-    $BIN_DIR/compile-nodejs "$BUILD_DIR" "$CACHE_DIR"
-    # Make the node binaries available to the rollout script
-    export PATH=$PATH:$BUILD_DIR/node_modules/.bin/
-fi
-popd > /dev/null
 
 # let's check for hook scripts
 # .hooks will be DEPRECATED soon in favor of .heroku
