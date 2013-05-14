@@ -36,7 +36,7 @@ fi
 
 # keep the package.json
 if [ -f www/package.json ]; then
-  mv www/package.json .
+  cp www/package.json .
 fi
 
 echo "-----> Extracting Apache $APACHE_VERSION PHP $PHP_VERSION build $BUILDPACK_VERSION"
