@@ -124,6 +124,9 @@ echo "Launching PHP FPM"
 
 echo "Launching apache"
 exec /app/apache/bin/httpd -DNO_DETACH
+
+echo "Launching Node"
+~/bin/node ~/www/app.js
 EOF
 
 chmod +x boot.sh
