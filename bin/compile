@@ -76,6 +76,7 @@ pushd $BUILD_DIR > /dev/null
 echo "Setting up nodejs"
 if [ -f package.json ]; then
     echo "Found package.json"
+    chmod +x $BIN_DIR/compile-nodejs
     $BIN_DIR/compile-nodejs "$BUILD_DIR" "$CACHE_DIR"
     # Make the node binaries available to the rollout script
     export PATH=$PATH:$BUILD_DIR/node_modules/.bin/
